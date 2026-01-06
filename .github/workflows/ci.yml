@@ -19,3 +19,6 @@ jobs :
 
             - name : "Install Dependencies"
               run : npm install
+
+            - name : "Done Setup"
+              run : echo "Done Setup"
