@@ -1,0 +1,33 @@
+name  : "Now Push That Build"
+on:
+    workflow_run:
+        workflows: ["Sample React Ci Pipleline FOr test / Workflow"]
+        types:
+            - completed
+    workflow_dispatch:
+
+jobs:
+   deploy:
+       runs-on: ubuntu-latest
+       environment : production
+       steps:
+
+           - name: "Setup Node Js"
+             uses: actions/setup-node@v3
+             with:
+                 node-version : "21"
+
+           - name : "SetUp Vercel CLI"
+             run:   npm i -g vercel
+             
+
+           - name: "Download Build"
+             uses: actions/download-artifact@v4
+             with:
+                 name: build
+                 run-id : ${{ github.event.workflow_run.id }}
+                 github-token: ${{ github.token }}
+            
+           - name : "Deploy"
+             run : vercel --prod --token ${{ secrets.VERCEL_TOKEN }} --confirm
+            

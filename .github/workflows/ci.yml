@@ -22,3 +22,17 @@ jobs :
 
             - name : "Done Setup"
               run : echo "Done Setup"
+
+            - name : "Run Build"
+              run : npm run build
+
+            - name : "Downlaod Build"
+              uses : actions/download-artifact@v3
+              with :
+                  name : build
+                  path : dist
+
+            - name : "Done Build"
+              run : echo "Done Build"
+
+            
